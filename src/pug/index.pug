@@ -1,0 +1,133 @@
+doctype html
+html(lang='ja')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    link(rel='stylesheet', href=relativeRoot + 'assets/css/app.css')
+    title PSES6 BoilerPlate
+  body
+    header#gHeader.gHeader
+      h1.gHeader-logo
+        p.img
+          img(src="http://placehold.jp/70x70.png?text=logo", alt="PSBG BoilerPlate")
+      nav
+        ol.gHeader-nav
+          li.gHeader-navItem: a(href=relativeRoot + '/about/') PSBG BoilerPlateについて
+          li.gHeader-navItem: a(href=relativeRoot + '/specs/') 使用技術
+          li.gHeader-navItem: a(href=relativeRoot + '/usage/') こんな用途に
+          li.gHeader-navItem: a(href=relativeRoot + '/setup/') セットアップ
+      .gHeader-contact
+    main#main
+      #hero.hero
+        .hero-wrap
+          .hero-headline
+            h2
+              |さっとできる
+              br
+              |すぐにできる
+              br
+              |かゆいところに手がとどく
+          .hero-body
+            p PSG BoilerPlateは、Webサイト制作でよくあるちょっとした困りごとや手間のかかることを、可能な限り効率よく処理できるように作られた、静的サイトジェネレーターです。
+            p 日本人が開発しているので、日本のWebサイト制作にフィットするテンプレートです。
+      #second.second
+        h2.title こんな用途に…
+        .row
+          -
+            const usage = [
+              {
+                img: "http://placehold.jp/500x500.png?text=hoge",
+                heading: "急なオーダーだけど、時間がない…",
+                desc: "HTML/CSS/JavaScriptに必要なアセットを効率よく配置しているので、従来の工数を大幅に削減できます。"
+              },
+              {
+                img: "http://placehold.jp/500x500.png?text=hoge",
+                heading: "サーバー要件が厳しい",
+                desc: "PSBG BoilerPlateは、静的にHTML/CSS/JavaScriptを書き出すことを目的としているので、一般的なWebサーバーであれば動作します。また、静的であるが故に、表示速度の面でもメリットがあります。"
+              },
+              {
+                img: "http://placehold.jp/500x500.png?text=hoge",
+                heading: "複数人で制作したい",
+                desc: "PSBG BoilerPlateは、Gitによる複数人での制作を前提としています。すべてのコンテンツはファイルベースで管理するため、データベースに依存するようなコンテンツ開発の必要はありません。"
+              },
+              {
+                img: "http://placehold.jp/500x500.png?text=hoge",
+                heading: "予算がないんだけど…",
+                desc: "安心してください！ PSBG BoilerPlateは、オープンソース（MIT License）です。無料でお使いいただけます。"
+              },
+            ]
+          mixin usage(img,heading,desc)
+            .col
+              p.img
+                img(src=img)
+              h3=heading
+              .desc
+                p=desc
+          each item in usage
+            +usage(item.img,item.heading,item.desc)
+      #techs.techs
+        h2.title 使用技術
+        .row
+          -
+            let logos = [
+              {
+                img: "http://placehold.jp/500x500.png?text=logo",
+                alt: "Pug",
+                heading: "HTMLプリプロセッサ",
+                name: "Pug",
+              },
+              {
+                img: "http://placehold.jp/500x500.png?text=logo",
+                alt: "Stylus",
+                heading: "CSSプリプロセッサ",
+                name: "Stylus",
+              },
+              {
+                img: "http://placehold.jp/500x500.png?text=logo",
+                alt: "Babel",
+                heading: "JavaScriptトランスパイラ",
+                name: "Babel",
+              },
+              {
+                img: "http://placehold.jp/500x500.png?text=logo",
+                alt: "Webpack",
+                heading: "JavaScriptバンドらー",
+                name: "Webpack",
+              },
+              {
+                img: "http://placehold.jp/500x500.png?text=logo",
+                alt: "Gulp",
+                heading: "タスクランナー",
+                name: "Gulp",
+              },
+              {
+                img: "http://placehold.jp/500x500.png?text=logo",
+                alt: "npm",
+                heading: "パッケージマネージャー",
+                name: "npm",
+              },
+            ]
+          mixin logos(img,alt,heading,name)
+            .col
+              p.img
+                img(src=img, alt=alt)
+              p.desc
+                |#{heading}：#{name}
+          each item in logos
+            +logos(item.img,item.alt,item.heading,item.name)
+      #news.news
+        h2 お知らせ
+        ol
+          -
+            let i = 0
+          while i < 5
+            li
+              time 2018.05.30
+              | PSBG BoilerPlate 開発スタート
+            - i++
+      #join
+        h2 開発に参加しませんか？
+    footer#gFooter.gFooter
+      .footer-copyright
+        p MIT License Kohki SHIKATA
