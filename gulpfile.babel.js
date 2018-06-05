@@ -43,7 +43,11 @@ const config = {
   port: '8000',
   production: !!(yargs.argv.production),
   archive_name: 'archive',
-  production_root_url: 'https://example.com/'
+  production_root_url: 'https://example.com/',
+  seo: {
+    ga: 'UA-1234567890',
+    gtm: 'gtm-1234',
+  },
 }
 
 // clean dist before initiate to build
@@ -113,10 +117,19 @@ function images() {
 
 // generate sitemap
 function sitemap() {
-  return gulp.src(`${config.path.dest.html}/**/*.html`, {read: false})
+  return gulp.src(`${config.path.dest.html}**/*.html`, {read: false})
+    .pipe($.if(config.seo.ga, $.gtag({uid: config.seo.ga})))
+    .pipe($.if(!config.seo.gtm, $.gtm({containerId: config.seo.gtm})))
     .pipe($.sitemap({
       siteUrl: config.production_root_url
     }))
+    .pipe(gulp.dest(`${config.path.dest.root}`))
+}
+
+function googletags() {
+  return gulp.src(`${config.path.dest.html}**/*.html`, {read: false})
+    .pipe($.if(config.seo.ga, $.gtag({uid: config.seo.ga})))
+    .pipe($.if(config.seo.gtm, $.gtm({containerId: config.seo.gtm})))
     .pipe(gulp.dest(`${config.path.dest.root}`))
 }
 
@@ -136,7 +149,7 @@ function reload(done) {
 
 // Watch assets
 function watch() {
-  gulp.watch(config.path.src.html).on('all', gulp.series(html, browser.reload))
+  gulp.watch([config.path.src.html, config.path.dest.html]).on('all', gulp.series(html, browser.reload))
   gulp.watch(config.path.src.css).on('all', gulp.series(css, browser.reload))
   gulp.watch(config.path.src.js).on('all', gulp.series(javascript, browser.reload))
   gulp.watch(config.path.src.img).on('all', gulp.series(images, browser.reload))
@@ -144,7 +157,7 @@ function watch() {
 
 // register build task
 gulp.task('build',
-  gulp.series(clean, gulp.parallel(html, css, javascript, images, copy),sitemap, server, watch))
+  gulp.series(clean, gulp.parallel(html, css, javascript, images, copy), sitemap, googletags, server, watch))
 
 // register command
 gulp.task('default',
@@ -159,4 +172,4 @@ function ship() {
 }
 
 gulp.task('ship',
-  gulp.series(clean, gulp.parallel(html, css, javascript, images, copy), sitemap, ship))
+  gulp.series(clean, gulp.parallel(html, css, javascript, images, copy), sitemap, googletags, ship))
