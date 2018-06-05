@@ -43,10 +43,11 @@ const config = {
   port: '8000',
   production: !!(yargs.argv.production),
   archive_name: 'archive',
+  production_root_url: 'https://example.com/'
 }
 
 // clean dist before initiate to build
-<<<<<<< HEAD
+
 function clean(done) {
   return rimraf(config.path.dest.root, done)
 }
@@ -55,10 +56,6 @@ function clean(done) {
 function copy() {
   return gulp.src(`${config.path.src.root}/assets/**/*`)
     .pipe(gulp.dest(`${config.path.dest.root}/assets`));
-=======
-function clean() {
-  return gulp.src(config.path.dest.root)
->>>>>>> 35cc6272f375ec8363b68fc59562dc777247058f
 }
 
 // Render pug to html
@@ -98,36 +95,29 @@ function css() {
 
 function javascript() {
   return gulp.src(`${config.path.src.js}/app.js`)
-<<<<<<< HEAD
     .pipe(named())
     .pipe($.sourcemaps.init())
     .pipe(webpackStream(webpackConfig,webpack))
     .pipe($.if(!config.production, $.sourcemaps.write()))
     .pipe(gulp.dest(`${config.path.dest.js}`))
-=======
-  .pipe(named())
-  .pipe($.sourcemaps.init())
-  .pipe(webpackStream(webpackConfig,webpack))
-  .pipe($.if(!config.production,$.sourcemaps.write()))
-  .pipe(gulp.dest(`${config.path.dest.js}`))
->>>>>>> 35cc6272f375ec8363b68fc59562dc777247058f
 }
 
 // compress images
 function images() {
-<<<<<<< HEAD
   return gulp.src(`${config.path.src.img}/**/*`)
     .pipe($.if(config.production, $.imagemin({
       progressive: true
     })))
     .pipe(gulp.dest(`${config.path.dest.img}/`));
-=======
-  return gulp.src(`${config.path.src.img}/**/*.(jpg|jpeg|png|svg)`)
-    .pipe($.if(config.production, $.imagemin({
-      progressive: true
-    })))
-    .pipe(gulp.dest(`${config.path.dest.img}`));
->>>>>>> 35cc6272f375ec8363b68fc59562dc777247058f
+}
+
+// generate sitemap
+function sitemap() {
+  return gulp.src(`${config.path.dest.html}/**/*.html`, {read: false})
+    .pipe($.sitemap({
+      siteUrl: config.production_root_url
+    }))
+    .pipe(gulp.dest(`${config.path.dest.root}`))
 }
 
 // Start local web server
@@ -153,12 +143,8 @@ function watch() {
 }
 
 // register build task
-gulp.task('build', 
-<<<<<<< HEAD
-  gulp.series(clean, gulp.parallel(html, css, javascript, images, copy), server, watch))
-=======
-  gulp.series(clean, gulp.parallel(html, css, javascript, images), server, watch))
->>>>>>> 35cc6272f375ec8363b68fc59562dc777247058f
+gulp.task('build',
+  gulp.series(clean, gulp.parallel(html, css, javascript, images, copy),sitemap, server, watch))
 
 // register command
 gulp.task('default',
@@ -173,8 +159,4 @@ function ship() {
 }
 
 gulp.task('ship',
-<<<<<<< HEAD
-  gulp.series(clean, gulp.parallel(html, css, javascript, images, copy), ship))
-=======
-  gulp.series(clean, gulp.parallel(html, css, javascript, images), ship))
->>>>>>> 35cc6272f375ec8363b68fc59562dc777247058f
+  gulp.series(clean, gulp.parallel(html, css, javascript, images, copy), sitemap, ship))
