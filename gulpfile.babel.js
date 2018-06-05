@@ -3,7 +3,8 @@
 // import general libs
 import gulp from 'gulp'
 import gulpPlugins from 'gulp-load-plugins'
-let $ = gulpPlugins() // imports all gulp plugins into $
+const $ = gulpPlugins() // imports all gulp plugins into $
+import yargs from 'yargs'
 
 // preview browser setup
 import browser from 'browser-sync'
@@ -15,17 +16,24 @@ import prefix from 'autoprefixer-stylus'
 
 // import js libs
 import babel from 'babel-register'
+import webpack from 'webpack'
+import webpackConfig from './webpack.config.js'
+import webpackStream from 'webpack-stream'
+import named from 'vinyl-named'
+import rimraf from 'rimraf'
 
 // configurations
 const config = {
   path: {
     src: {
+      root: '/',
       html: 'src/pug/',
       css: 'src/stylus/',
       img: 'src/img/',
       js: 'src/js/',
     },
     dest: {
+      root: 'dist/',
       html: 'dist/',
       css: 'dist/assets/css/',
       img: 'dist/assets/img/',
@@ -33,6 +41,13 @@ const config = {
     },
   },
   port: '8000',
+  production: !!(yargs.argv.production),
+  archive_name: 'archive',
+}
+
+// clean dist before initiate to build
+function clean() {
+  return gulp.src(config.path.dest.root)
 }
 
 // Render pug to html
@@ -48,9 +63,10 @@ function html() {
       }
     }))
     .pipe($.pug({
-      pretty: false,
+      pretty: true,
       basedir: config.path.src.html,
     }))
+    .pipe($.htmlBeautify())
     .pipe(gulp.dest(`${config.path.dest.html}`))
 }
 
@@ -65,8 +81,26 @@ function css() {
         sgrid(),
       ],
     }))
-    .pipe($.sourcemaps.write('./'))
+    .pipe($.if(!config.production, $.sourcemaps.write('./')))
     .pipe(gulp.dest(`${config.path.dest.css}`))
+}
+
+function javascript() {
+  return gulp.src(`${config.path.src.js}/app.js`)
+  .pipe(named())
+  .pipe($.sourcemaps.init())
+  .pipe(webpackStream(webpackConfig,webpack))
+  .pipe($.if(!config.production,$.sourcemaps.write()))
+  .pipe(gulp.dest(`${config.path.dest.js}`))
+}
+
+// compress images
+function images() {
+  return gulp.src(`${config.path.src.img}/**/*.(jpg|jpeg|png|svg)`)
+    .pipe($.if(config.production, $.imagemin({
+      progressive: true
+    })))
+    .pipe(gulp.dest(`${config.path.dest.img}`));
 }
 
 // Start local web server
@@ -78,12 +112,34 @@ function server(done) {
   done()
 }
 
+function reload(done) {
+  browser.reload();
+  done();
+}
+
 // Watch assets
 function watch() {
   gulp.watch(config.path.src.html).on('all', gulp.series(html, browser.reload))
   gulp.watch(config.path.src.css).on('all', gulp.series(css, browser.reload))
+  gulp.watch(config.path.src.js).on('all', gulp.series(javascript, browser.reload))
+  gulp.watch(config.path.src.img).on('all', gulp.series(images, browser.reload))
 }
 
-// register commands
+// register build task
+gulp.task('build', 
+  gulp.series(clean, gulp.parallel(html, css, javascript, images), server, watch))
+
+// register command
 gulp.task('default',
-  gulp.series(gulp.parallel(html, css), server, watch))
+  gulp.series('build', server, watch))
+
+// register zip to shipping command
+
+function ship() {
+  return gulp.src(`${config.path.dest.root}/**/*`)
+    .pipe($.zip(`${config.archive_name}.zip`))
+    .pipe(gulp.dest('./'))
+}
+
+gulp.task('ship',
+  gulp.series(clean, gulp.parallel(html, css, javascript, images), ship))
