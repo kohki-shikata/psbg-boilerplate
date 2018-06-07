@@ -4,7 +4,9 @@
 import gulp from 'gulp'
 import gulpPlugins from 'gulp-load-plugins'
 const $ = gulpPlugins() // imports all gulp plugins into $
-import yargs from 'yargs'
+import yargs
+from 'yargs'
+import fs from 'fs'
 
 // preview browser setup
 import browser from 'browser-sync'
@@ -31,6 +33,7 @@ const config = {
       css: 'src/stylus/',
       img: 'src/img/',
       js: 'src/js/',
+      data: 'src/data/'
     },
     dest: {
       root: 'dist/',
@@ -47,6 +50,23 @@ const config = {
   seo: {
     ga: 'UA-1234567890',
     gtm: 'gtm-1234',
+    metas: {
+      list: ['og', 'se', 'schema', 'twitter'],
+      meta: {
+        title: 'Title website',
+        description: 'Description website',
+        author: 'Maksym Blank',
+        keywords: ['website', 'with', 'meta', 'tags'],
+        robots: {
+            index: true, // true
+            follow: true // true
+        },
+        revisitAfter: '1 month', // 3 month
+        image: 'http://placehold.jp/1200x630.png?text=OGPimage',
+        site_name: 'My Website',
+        type: 'website'
+      }
+    }
   },
 }
 
@@ -64,6 +84,12 @@ function copy() {
 
 // Render pug to html
 function html() {
+  let site_meta = []
+  const site_meta_data = JSON.parse(fs.readFileSync(`${config.path.src.data}/site.json`))
+  for (let i = 0; i < site_meta_data; i++) {
+    site_meta.push(site_meta_data)
+  }
+
   return gulp.src(`${config.path.src.html}**/!(_)*.pug`)
     .pipe($.plumber())
     .pipe($.data((file) => {
@@ -72,12 +98,17 @@ function html() {
       let relativeRoot = new Array(depth).join( '../' )
       return {
         relativeRoot: relativeRoot,
+        siteMeta: site_meta_data,
       }
     }))
     .pipe($.pug({
       pretty: true,
       basedir: config.path.src.html,
     }))
+    // .pipe($.seo(config.seo.metas))
+    .pipe($.if(config.seo.ga, $.gtag({uid: config.seo.ga})))
+    .pipe($.if(config.seo.gtm, $.gtm({containerId: config.seo.gtm})))
+    .pipe($.htmlEntities('decode'))
     .pipe($.htmlBeautify())
     .pipe(gulp.dest(`${config.path.dest.html}`))
 }
@@ -127,9 +158,8 @@ function sitemap() {
 }
 
 function googletags() {
-  return gulp.src(`${config.path.dest.html}**/*.html`, {read: false})
-    .pipe($.if(config.seo.ga, $.gtag({uid: config.seo.ga})))
-    .pipe($.if(config.seo.gtm, $.gtm({containerId: config.seo.gtm})))
+  return gulp.src(`${config.path.dest.html}**/*.html`, /* {read: false} */)
+
     .pipe(gulp.dest(`${config.path.dest.root}`))
 }
 
@@ -149,7 +179,7 @@ function reload(done) {
 
 // Watch assets
 function watch() {
-  gulp.watch([config.path.src.html, config.path.dest.html]).on('all', gulp.series(html, browser.reload))
+  gulp.watch([config.path.src.html]).on('all', gulp.series(html, browser.reload))
   gulp.watch(config.path.src.css).on('all', gulp.series(css, browser.reload))
   gulp.watch(config.path.src.js).on('all', gulp.series(javascript, browser.reload))
   gulp.watch(config.path.src.img).on('all', gulp.series(images, browser.reload))
