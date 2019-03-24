@@ -74,18 +74,18 @@ const config = {
 
 // clean dist before initiate to build
 
-function clean(done) {
+const clean = (done) => {
   return rimraf(config.path.dest.root, done)
 }
 
 // copy assets ignore css, js, imgs
-function copy() {
+const copy = () => {
   return gulp.src(`${config.path.src.root}/assets/**/*`)
     .pipe(gulp.dest(`${config.path.dest.root}/assets`));
 }
 
 // Render pug to html
-function html() {
+const html = () => {
   let site_meta = []
   const site_meta_data = JSON.parse(fs.readFileSync(`${config.path.src.data}/site.json`))
   for (let i = 0; i < site_meta_data; i++) {
@@ -116,7 +116,7 @@ function html() {
 }
 
 // Render stylus to css
-function css() {
+const css = () => {
   return gulp.src(`${config.path.src.css}**/!(_)*.styl`)
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
@@ -132,17 +132,17 @@ function css() {
     .pipe(gulp.dest(`${config.path.dest.css}`))
 }
 
-function javascript() {
+const javascript = () => {
   return gulp.src(`${config.path.src.js}/app.js`)
-    .pipe(named())
     .pipe($.sourcemaps.init())
+    .pipe(named())
     .pipe(webpackStream(webpackConfig,webpack))
     .pipe($.if(!config.production, $.sourcemaps.write()))
     .pipe(gulp.dest(`${config.path.dest.js}`))
 }
 
 // compress images
-function images() {
+const images = () => {
   return gulp.src(`${config.path.src.img}/**/*`)
     .pipe($.if(config.production, $.imagemin([
       pngquant({
@@ -161,7 +161,7 @@ function images() {
 }
 
 // generate sitemap
-function sitemap() {
+const sitemap = () => {
   return gulp.src(`${config.path.dest.html}**/*.html`, {read: false})
     .pipe($.if(config.seo.ga, $.gtag({uid: config.seo.ga})))
     .pipe($.if(!config.seo.gtm, $.gtm({containerId: config.seo.gtm})))
@@ -171,14 +171,14 @@ function sitemap() {
     .pipe(gulp.dest(`${config.path.dest.root}`))
 }
 
-function googletags() {
+const googletags = () => {
   return gulp.src(`${config.path.dest.html}**/*.html`, /* {read: false} */)
 
     .pipe(gulp.dest(`${config.path.dest.root}`))
 }
 
 // Start local web server
-function server(done) {
+const server = (done) => {
   browser.init({
     server: config.path.dest.html,
     port: config.port,
@@ -192,7 +192,7 @@ function reload(done) {
 }
 
 // Watch assets
-function watch() {
+const watch = () => {
   gulp.watch([config.path.src.html]).on('all', gulp.series(html, browser.reload))
   gulp.watch(config.path.src.css).on('all', gulp.series(css, browser.reload))
   gulp.watch(config.path.src.js).on('all', gulp.series(javascript, browser.reload))
