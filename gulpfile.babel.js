@@ -186,11 +186,6 @@ const server = (done) => {
   done()
 }
 
-function reload(done) {
-  browser.reload();
-  done();
-}
-
 // Watch assets
 const watch = () => {
   gulp.watch([config.path.src.html]).on('all', gulp.series(html, browser.reload))
