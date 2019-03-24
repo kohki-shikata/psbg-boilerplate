@@ -128,6 +128,7 @@ function css() {
         sgrid(),
       ],
     }))
+    .pipe($.groupCssMediaQueries())
     .pipe($.if(!config.production, $.sourcemaps.write('./')))
     .pipe(gulp.dest(`${config.path.dest.css}`))
 }
