@@ -1,8 +1,16 @@
 header#gHeader.gHeader
-  h1.gHeader-title=`${pageVars.title} - ${siteMeta.title}`
-  nav
-    ol.gHeader-menu
-      li.gHeader-menuItem
+  .headerContainer
+    h1.gHeader-title
+      span.title PSBG Boilerplate
+      span.caption - An all in one kit for tiny web development with Gulp/Git
+
+  nav.gHeader-menu
+    ol.menu
+      li.menu-item
         a(href=`${relativeRoot}`) Toppage
-      li.gHeader-menuItem
-        a(href=`${relativeRoot}about/`) About
+      li.menu-item
+        a(href=`${relativeRoot}about/`) Concepts
+      li.menu-item
+        a(href=`${relativeRoot}about/`) Functions
+      li.menu-item
+        a(href=`${relativeRoot}about/`) Build site

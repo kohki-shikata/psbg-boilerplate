@@ -7,7 +7,26 @@ ks-support-media-queries = true
 @import 's-grid-functions'
 // @import 's-grid-classes'
 
-siteGreen = #99ecbe
+siteYellow = #ffe278
+siteRhyme = #c1f59a
+siteGreen = #87e6d0
+globalContentWith = 1200px
+
+subHeading(color)
+  text-align center
+  position relative
+  color #666
+  margin-bottom 50px
+  &:after
+    content ''
+    display block
+    width 70px
+    height 10px
+    position absolute
+    bottom -20px
+    left 50%
+    transform translateX(-50%)
+    background-color color
 
 * > *:first-child
   margin-top 0
@@ -15,48 +34,152 @@ siteGreen = #99ecbe
 * > *:last-child
   margin-bottom 0
 
+*
+  box-sizing border-box
+
+.img
+  img
+    max-width 100%
+
+nav a
+  text-decoration none
+
+body
+  font-family Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif
+
 .gHeader
-  color #666
-  min-height 10vh
-  background siteGreen
-  padding-top 10px
+  .headerContainer
+    width globalContentWith
+    margin 0 auto
+    padding-top 20px
+    padding-bottom 20px
   &-title
-    text-align center
-    margin-bottom 10px
-  &-menu
+    font-size 17px
     display flex
     flex-flow row wrap
-    &Item
+    align-content center
+    background-image linear-gradient(to right, #ffe100 0%,#30ff67 50%,#07c6ed 100%)
+    background-clip text
+    line-height 0
+    .caption
+      font-size 11px
+      display flex
+      align-items center
+      font-weight normal
+      margin-left 1em
+      color #999
+  &-menu
+    width globalContentWith
+    margin 0 auto
+    background-color #666
+    .menu
+      display table
+      table-layout fixed
+      text-align center
+      width 100%
+    .menu-item
       list-style-type none
-      width calc('100% / 2')
+      display table-cell
+      vertical-align middle
+      font-size 14px
       text-align center
       a
         color #fff
-        text-decoration none
-        background darken(siteGreen, 35%)
         display block
-        padding-bottom 10px
-        padding-top 10px
         width 100%
         height 100%
+        padding 10px
         &:hover
-          background darken(siteGreen, 55%)
-          transition background .3s ease
+          background-color #999
 
-#main
-  min-height 85vh
-  position relative
+#hero
+  width 100%
+  display flex
+  flex-flow row wrap
+  margin-bottom 70px
+  .hero-item
+    width calc('100vw / 3')
+    height calc('100vw / 3')
+    min-height 300px
+    display flex
+    justify-content center
+    align-items center
+    &.faster
+      background-color siteYellow
+    &.simple
+      background-color siteRhyme
+    &.flexible
+      background-color siteGreen
+    .inner
+      width calc('(100vw / 3) / 2')
+      min-height calc('(100vw / 3) / 2')
+      padding 20px
+      background #fff
+      .hero-itemTitle
+        color #666
+        margin-bottom 0.5em
+        font-size 24px
+      .caption
+        font-size 13px
+        line-height 1.4
+        color #999
+
+#functions
+  margin-bottom 70px
+  .title-functions
+    subHeading(siteYellow)
   .inner
-    position absolute
-    top 50%
-    left 50%
-    transform translate(-50%,-50%)
-.gFooter
-  min-height 5vh
-  background #ddd
-  position relative
-  p
-    position absolute
-    top 50%
-    left 50%
-    transform translate(-50%,-50%)
+    width globalContentWith
+    margin 0 auto
+    display flex
+    flex-flow row wrap
+  .functionsList
+    width 50%
+    padding-left 20px
+    padding-right 20px
+  .functionsList-item
+    list-style-type none
+    margin-bottom 20px
+    .heading
+      font-size 22px
+      color #666
+      font-weight bold
+      margin-bottom 0.5em
+    .summary
+      font-size 14px
+      color #999
+      margin-left 5em
+
+#architecture
+  .title-architecture
+    subHeading(siteRhyme)
+  .wrapper
+    width 800px
+    margin 0 auto
+    display flex
+    flex-flow row wrap
+    min-height 400px
+    .col
+      width calc('100% / 3')
+      background-color #f6f6f6
+      border-right 1px solid #ddd
+      border-bottom 1px solid #ddd
+      min-height calc('800px / 3')
+      display flex
+      justify-content center
+      align-items center
+      .inner
+        width 60%
+        background-color #fefefe
+        text-align center
+        padding 15px
+        .subTitle
+          color #666
+        .caption
+          color #999
+          font-size 14px
+          line-height 1.4
+      .logo
+        max-height 70px
+        img
+          min-height 100%

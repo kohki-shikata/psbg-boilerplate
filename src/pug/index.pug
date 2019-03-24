@@ -7,6 +7,100 @@ block vars
     }
 
 block main
-  main#main
+  #hero
+    .hero-item.faster
+      .inner
+        h2.hero-itemTitle Faster
+        p.caption
+          |PSBG Boilerplate provides Pug and Stylus. Coding faster than raw HTML and CSS.
+    .hero-item.simple
+      .inner
+        h2.hero-itemTitle Simple
+        p.caption
+          |No complicated configuration. You need to type few commands to start sitescratching.
+    .hero-item.flexible
+      .inner
+        h2.hero-itemTitle Flexible
+        p.caption
+          |This kit consisted with Gulp and Webpack. You can extend anything you want with JavaScript power.
+  #functions
+    h2.title-functions Preserved Functions
     .inner
-      p Here is Toppage
+      ol.functionsList
+        li.functionsList-item
+          p.heading Split your HTML and Simplified coding.
+          p.summary PSBG Boilerplate adopts Pug. Pug implements include and extends codefiles.
+        li.functionsList-item
+          p.heading Auto completed relative path
+          p.summary You can set nested pug files. PSBG Boilerpalte serves automatically relative path.
+        li.functionsList-item
+          p.heading Simply indented CSS coding.
+          p.summary We no require brackets and semicolon. That's Stylus style.
+        li.functionsList-item
+          p.heading Modern CSS Architecture
+          p.summary Useful mixins via KoutoSwiss, smart grid system via s-grid.
+        li.functionsList-item
+          p.heading Legacy Coding? It's OK.
+          p.summary Pug and Stylus acceptable raw HTML and CSS syntax.
+        li.functionsList-item
+          p.heading Automatically prefixing
+          p.summary No need terrifies vendor-prefixing. PSBG Boilerplate fixies all.
+      ol.functionsList
+        li.functionsList-item
+          p.heading Babeling ES6 syntax
+          p.summary Implemented babel feature. You can code ES6 syntax.
+        li.functionsList-item
+          p.heading Progressive JS package management.
+          p.summary Just you do 'npm i package-you-need'. JS libs your site need is managed via Webpack.
+        li.functionsList-item
+          p.heading SEO Friendly
+          p.summary Automatically serves sitemap.xml, Google Analytics Tag, Google Tag Manager.
+        li.functionsList-item
+          p.heading Compressed Images
+          p.summary No struggle with Photoshop export dialog file by file. Image files are compressed automatically.
+        li.functionsList-item
+          p.heading Just save. Automatically browser reloads.
+          p.summary PSBG Boilerplate detects your files changed, and reloading browser.
+        li.functionsList-item
+          p.heading Send files to your client? No need to zipping on your OS.
+          p.summary We preserved 'ship' command. All of compiled files are zipped with one command.
+
+  #architecture
+    h2.title-architecture Suited systems
+    .wrapper
+      .col
+        .inner
+          p.img.logo
+            img(src=`${relativeRoot}assets/img/logo_pug.svg`)
+          h3.subTitle Pug
+          p.caption HTML Templating / Preprocessor
+      .col
+        .inner
+          p.img.logo
+            img(src=`${relativeRoot}assets/img/logo_stylus.svg`)
+          h3.subTitle Stylus
+          p.caption CSS Preprosessor
+      .col
+        .inner
+          p.img.logo
+            img(src=`${relativeRoot}assets/img/logo_babel.svg`)
+          h3.subTitle Babel
+          p.caption JavaScript Transpile
+      .col
+        .inner
+          p.img.logo
+            img(src=`${relativeRoot}assets/img/logo_imagemin.svg`)
+          h3.subTitle imagemin
+          p.caption Image compressing
+      .col
+        .inner
+          p.img.logo
+            img(src=`${relativeRoot}assets/img/logo_gulp.svg`)
+          h3.subTitle Gulp
+          p.caption Task runner
+      .col
+        .inner
+          p.img.logo
+            img(src=`${relativeRoot}assets/img/logo_git.svg`)
+          h3.subTitle Git
+          p.caption File version control system
