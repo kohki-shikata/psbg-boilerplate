@@ -1,11 +1,8 @@
 header#gHeader.gHeader
-  h1.gHeader-logo
-    p.img
-      img(src="http://placehold.jp/70x70.png?text=logo", alt="PSBG BoilerPlate")
+  h1.gHeader-title=`${pageVars.title} - ${siteMeta.title}`
   nav
-    ol.gHeader-nav
-      li.gHeader-navItem: a(href=relativeRoot + 'about/') PSBG BoilerPlateについて
-      li.gHeader-navItem: a(href=relativeRoot + 'specs/') 使用技術
-      li.gHeader-navItem: a(href=relativeRoot + 'usage/') こんな用途に
-      li.gHeader-navItem: a(href=relativeRoot + 'setup/') セットアップ
-  .gHeader-contact
+    ol.gHeader-menu
+      li.gHeader-menuItem
+        a(href=`${relativeRoot}`) Toppage
+      li.gHeader-menuItem
+        a(href=`${relativeRoot}about/`) About

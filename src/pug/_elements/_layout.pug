@@ -13,7 +13,9 @@ html(lang='ja')
   body
     block header
       include _header
-    block main
+    main#main
+      block main
 
     block footer
       include _footer
+    script(src=relativeRoot + "assets/js/app.js")

@@ -7,120 +7,56 @@ ks-support-media-queries = true
 @import 's-grid-functions'
 // @import 's-grid-classes'
 
-$fwTitle
-  font-size 34px
-  margin-bottom 1.5em
-  text-align center
-
-*
-  box-sizing border-box
-  margin-top 0
-html, body
-  margin 0
-body
-  font-size 17px
-  line-height 1.7
-
-#main
-  p
-    margin-bottom 1.5em
-
-p,ul,ol,dl,table,blockquote
-  margin-bottom 1.5em
+siteGreen = #99ecbe
 
 * > *:first-child
   margin-top 0
+
 * > *:last-child
   margin-bottom 0
 
-.img
-  line-height 0
-  img
-    max-width 100%
-
 .gHeader
-  padding-top 15px
-  padding-bottom 15px
-  background-color #91caf4
-  &-logo
+  color #666
+  min-height 10vh
+  background siteGreen
+  padding-top 10px
+  &-title
     text-align center
-  &-nav
-    text-align center
+    margin-bottom 10px
+  &-menu
+    display flex
+    flex-flow row wrap
     &Item
-      display inline-block
-      padding-left 15px
-      padding-right 15px
+      list-style-type none
+      width calc('100% / 2')
+      text-align center
       a
+        color #fff
+        text-decoration none
+        background darken(siteGreen, 35%)
         display block
+        padding-bottom 10px
+        padding-top 10px
         width 100%
         height 100%
+        &:hover
+          background darken(siteGreen, 55%)
+          transition background .3s ease
 
-.hero
-  min-height 600px
-  background url('https://source.unsplash.com/IBbAS_oXvCc/2000x600')
-  background-size cover
+#main
+  min-height 85vh
   position relative
-  &:before
-    content ''
-    display block
-    width 100%
-    height 100%
-    background-color #195a8a
-    position absolute
-    opacity .5
-    mix-blend-mode multiply
-  &-headline
-    color #fff
-    position relative
-    z-index 100
-    text-align center
-    line-height 1.5
-    font-size 24px
-    margin-bottom 1.5em
-  &-body
-    color #fff
-    text-align center
-    position relative
-    z-index 100
-  &-wrap
-    width 40%
+  .inner
     position absolute
     top 50%
     left 50%
     transform translate(-50%,-50%)
-    border 1px solid #fff
-    padding 40px
-
-.second
-  padding-top 70px
-  .title
-    @extend $fwTitle
-  .row
-    center(1080)
-    grid()
-    .col
-      stack()
-      cell(1,2)
-      padding rem-calc(15)
-      +media-query(screen, min-width 640px)
-        cell(1, 4)
-      .desc
-        font-size 14px
-        line-height 1.5
-
-.techs
-  .title
-    @extend $fwTitle
-  .row
-    // center(1080)
-    grid()
-    .col
-      stack()
-      padding rem-calc(15)
-      cell(1,2)
-      +ks-media-query(only screen, min-width 640px)
-        cell(1, 6)
-      .desc
-        font-size 12px
-        line-height 1.5
-        text-align center
+.gFooter
+  min-height 5vh
+  background #ddd
+  position relative
+  p
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%,-50%)
