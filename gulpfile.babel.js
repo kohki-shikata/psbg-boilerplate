@@ -16,7 +16,6 @@ import sgrid from 's-grid'
 import autoprefixer from 'autoprefixer-stylus'
 
 // import js libs
-import babel from 'babel-register'
 import webpack from 'webpack'
 import webpackConfig from './webpack.config.js'
 import webpackStream from 'webpack-stream'
