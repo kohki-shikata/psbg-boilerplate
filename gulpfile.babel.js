@@ -13,7 +13,7 @@ import browser from 'browser-sync'
 // import css libs
 import koutoSwiss from 'kouto-swiss'
 import sgrid from 's-grid'
-import prefix from 'autoprefixer-stylus'
+import autoprefixer from 'autoprefixer-stylus'
 
 // import js libs
 import babel from 'babel-register'
@@ -125,6 +125,7 @@ function css() {
       use: [
         koutoSwiss(),
         sgrid(),
+        autoprefixer('iOS >= 11', 'last 1 Chrome version')
       ],
     }))
     .pipe($.groupCssMediaQueries())
