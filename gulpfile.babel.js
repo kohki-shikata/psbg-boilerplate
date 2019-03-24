@@ -24,6 +24,10 @@ import webpackStream from 'webpack-stream'
 import named from 'vinyl-named'
 import rimraf from 'rimraf'
 
+// import image libs
+import mozjpeg from 'imagemin-mozjpeg'
+import pngquant from 'imagemin-pngquant'
+
 // configurations
 const config = {
   path: {
@@ -140,9 +144,19 @@ function javascript() {
 // compress images
 function images() {
   return gulp.src(`${config.path.src.img}/**/*`)
-    .pipe($.if(config.production, $.imagemin({
-      progressive: true
-    })))
+    .pipe($.if(config.production, $.imagemin([
+      pngquant({
+        quality: "50-75",
+        speed: 1
+      }),
+      mozjpeg({
+        quality: 75,
+        progressive: true
+      }),
+      $.imagemin.svgo(),
+      $.imagemin.optipng(),
+      $.imagemin.gifsicle()
+    ])))
     .pipe(gulp.dest(`${config.path.dest.img}/`));
 }
 
