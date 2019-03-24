@@ -4,8 +4,7 @@
 import gulp from 'gulp'
 import gulpPlugins from 'gulp-load-plugins'
 const $ = gulpPlugins() // imports all gulp plugins into $
-import yargs
-from 'yargs'
+import yargs from 'yargs'
 import fs from 'fs'
 
 // preview browser setup
